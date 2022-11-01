@@ -1,0 +1,10 @@
+{
+    "notes": [
+      { "id": 1, "title": "React", "condent": "FrontEnd javaScript library" },
+      { "id": 2, "title": "javaScript", "condent": "core programing language" },
+      { "id": 3, "title": "Express.js", "condent": "Node.js framework" },
+      { "id": 4, "title": "Node.js", "condent": "runtime environment" },
+      { "id": 5, "title": "Mongodb", "condent": "Database design" }
+    ]
+   
+}
