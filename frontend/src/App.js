@@ -3,6 +3,7 @@ import Footer from './footer';
 import Heading from './Heading';
 import Note from './Note';
 import './App.css'
+import Container from '@mui/material/Container';
 
 
 
@@ -12,7 +13,9 @@ function App() {
   return (
     <div>
       <Heading />
-      <Note />
+      <Container>
+        <Note />
+      </Container>
       <Footer />
     </div>
   );

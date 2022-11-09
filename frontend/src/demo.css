@@ -26,6 +26,20 @@
     background-color: rgba(243, 237, 237, 0.396);
      
 }
+.delete-icon{
+    /* position: absolute; */
+    
+    text-align:unset;
+    color: red;
+}
+.listed-data{
+    /* height: 2rem; */
+    padding: 0.5rem;
+}
+
+.add-btn{
+    margin-top:1rem;
+}
 /* .note-list button {
      background-color: red;
      border: none;

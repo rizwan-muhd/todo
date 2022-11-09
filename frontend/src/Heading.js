@@ -1,16 +1,15 @@
 import React from 'react'
 import './demo.css'
-import Typography from '@material-ui/core/Typography'
-import useStyle from './Note'
+import Typography from '@mui/material/Typography';
 
 function Heading() {
-    const classes = useStyle()
+    // const classes = useStyle()
     return (
         <div className='NavBar'>
             <Typography
-                className={classes.h2}
+                // className={classes.h2}
                 variant='h4'
-                color='textSecondary'
+                color='success'
             >
                 Todo App
             </Typography>
