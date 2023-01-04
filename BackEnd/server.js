@@ -1,25 +1,21 @@
+//importing modules
+const express = require("express");
+const cors = require("cors");
+const connection = require("./Database/db.js");
+const routesUrls = require("./routes/route");
+const bodyParser = require("body-parser");
+const app = express();
 
-const express = require('express')
-const cors = require('cors')
+// mongodb connection
+connection();
 
-const mongoose = require('mongoose')
-const routesUrls = require('./routes/route')
-const app = express()
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/app", routesUrls);
 
-
-mongoose.connect('mongodb://localhost:27017/myDB', { useNewUrlParser: true })
-
-app.use(express.json())
-app.use(cors())
-
-app.use('/app', routesUrls)
-
-
-
-app.listen(3008, () => {
-    console.log("server created successfully");
-})
-
-
-
-
+//port setting
+const PORT = 3008;
+app.listen(PORT, () => {
+  console.log(`server running on port:${PORT}`);
+});

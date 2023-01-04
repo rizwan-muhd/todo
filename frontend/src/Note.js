@@ -1,140 +1,120 @@
-import React, { useState, useEffect } from 'react'
-import './demo.css'
-import axios from 'axios';
-import NoteList from './NoteList'
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-
+import React, { useState, useEffect } from "react";
+import "./demo.css";
+import axios from "axios";
+import NoteList from "./NoteList";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import {
+  addNewTodo,
+  deleteTodo,
+  getAllTodos,
+  updateTodo,
+} from "./redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 function Note() {
+  //usestate initialize
 
-    //usestate initialize
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos);
 
-    const [note, setNote] = useState({
-        title: " ",
+  const [note, setNote] = useState({
+    title: " ",
+  });
+  const [notes, setNotes] = useState([]);
 
-    })
-    const [notes, setNotes] = useState([])
-    // const [newNotes, setNewnotes] = useState('')
+  useEffect(() => {
+    dispatch(getAllTodos());
+  }, []);
 
-    //useEffect calling for display the list
+  //adding value to setnote
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setNote((prevNote) => {
+      return {
+        ...prevNote,
+        [name]: value,
+      };
+    });
+  };
+  //adding data to database
 
-    useEffect(() => {
-        axios.get('http://localhost:3008/app/gettodo').then((res) => {
-            // console.log(res.data);
-            setNotes(res.data)
-        })
-    }, [])
+  const addNotes = () => {
+    console.log(note);
+    // console.log(notes)
 
-    //adding value to setnote
+    if (note.title === "") {
+      alert("Enter proper data");
+    } else {
+      console.log(note);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        console.log(name, value);
-        setNote(prevNote => {
-            return {
-                ...prevNote,
-                [name]: value,
-            }
+      dispatch(addNewTodo(note));
 
-
-        })
+      setNote({
+        title: "",
+      });
     }
-    //adding data to database     
+  };
+  //deleting the data from database using axios
 
-    const addNotes = () => {
+  const deleteNotes = (id) => {
+    console.log(id);
+    dispatch(deleteTodo(id));
+  };
 
-        console.log(note);
-        // console.log(notes)
+  const updateNotes = (id, newTitle) => {
+    console.log("notes updated   " + id + "   " + newTitle);
 
-        if (note.title === "") {
-            alert('Enter proper data')
+    dispatch(updateTodo(id, newTitle));
+  };
+  return (
+    <Grid container rowSpacing={2} columnSpacing={2}>
+      <Grid item xs={10}>
+        <TextField
+          id="outlined-basic"
+          label="Todo..."
+          variant="outlined"
+          name="title"
+          fullWidth
+          required
+          margin="normal"
+          value={note.title}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Button
+          onClick={addNotes}
+          variant="contained"
+          color="secondary"
+          // className='add-btn'
+          sx={{ mt: 3 }}
+        >
+          Add Todo
+        </Button>
+      </Grid>
+      {/* </form> */}
 
-        }
-        else {
-
-
-            console.log(note);
-            axios.post('http://localhost:3008/app/addtodo', note).then((res) => {
-                console.log(res.data);
-            })
-            axios.get('http://localhost:3008/app/gettodo').then((res) => {
-                console.log(res.data);
-                setNotes(res.data)
-            })
-
-            setNote({
-                title: "",
-                // condent: ""
-            })
-
-        }
-    }
-    //deleting the data from database using axios  
-
-    const deleteNotes = (id) => {
-        console.log(id);
-        axios.delete(`http://localhost:3008/app/deleteTodo?id=${id}`)
-        axios.get('http://localhost:3008/app/gettodo').then((res) => {
-            console.log(res.data);
-            setNotes(res.data)
-        })
-    }
-
-    const updateNotes = (id, newTitle) => {
-        console.log("notes updated   " + id + "   " + newTitle);
-        // const data = [id, newTitle];
-        // console.log("new data" + data);
-        axios.put('http://localhost:3008/app/updateTodo', { id: id, newTitle: newTitle })
-        axios.get('http://localhost:3008/app/gettodo').then((res) => {
-            console.log(res.data);
-            setNotes(res.data)
-        })
-    }
-    return (
-
-        <Grid container rowSpacing={2} columnSpacing={2}>
-            {/* <form action="" noValidate autoComplete='off' > */}
-            <Grid item xs={10}>
-                <TextField
-                    id="outlined-basic"
-                    label="Todo..."
-                    variant="outlined"
-                    name='title'
-                    fullWidth
-                    required
-                    margin='normal'
-                    value={note.title}
-                    onChange={handleChange}
-                />
-            </Grid>
-            <Grid item xs={2}>
-                <Button
-                    onClick={addNotes}
-                    variant="contained"
-                    color='secondary'
-                    // className='add-btn'
-                    sx={{ mt: 3 }} >
-                    Add Todo</Button>
-            </Grid>
-            {/* </form> */}
-
-
-            {notes.map((items, index) => {
-                // console.log(items._id);
-                return (
-                    <Grid item xs={12}>
-                        <NoteList key={index} id={items._id} date={Date.now()} title={items.title} onDelete={deleteNotes} onUpdate={updateNotes} />
-                    </Grid>
-                )
-            })
-            }
-
-        </Grid>
-    )
+      {todos.map((items, index) => {
+        // console.log(items._id);
+        return (
+          <Grid item xs={12}>
+            <NoteList
+              key={index}
+              id={items._id}
+              date={Date.now()}
+              title={items.title}
+              onDelete={deleteNotes}
+              onUpdate={updateNotes}
+            />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
 }
 
-export default Note
-
+export default Note;
