@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const { JWT_SECRET } = require("../config/keys");
 
 dotenv.config();
 

@@ -4,7 +4,8 @@ import { ADDNEW_TODO, DELETE_TODOS, GETALL_TODOS, UPDATE_TODO } from "./type";
 export const addNewTodo = (data) => async (dispatch) => {
   try {
     const res = await axios.post("http://localhost:3008/app/addtodo", data);
-    dispatch({ type: ADDNEW_TODO, payload: res.data });
+    dispatch(getAllTodos());
+    // dispatch({ type: ADDNEW_TODO, payload: res.data });
   } catch (error) {
     console.log("error while adding todo", error);
   }
@@ -30,13 +31,13 @@ export const deleteTodo = (id) => async (dispatch) => {
   }
 };
 
-export const updateTodo = (id, newTitle) => async (dispatch) => {
+export const updateTodo = (id, newTitle) => async(dispatch)=> {
   try {
     const res = await axios.put("http://localhost:3008/app/updateTodo", {
       id: id,
       newTitle: newTitle,
     });
-    dispatch({ type: UPDATE_TODO, payload: res.data });
+    dispatch({ type: UPDATE_TODO,payload: res.data });
   } catch (error) {
     console.log(error);
   }

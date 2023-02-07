@@ -15,6 +15,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/app", routesUrls);
 
 //port setting
+if (process.env.NODE_ENV == "production") {
+  const path = require("path");
+  app.get("/", (req, res) => {
+    app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+  });
+}
+
 const PORT = 3008;
 app.listen(PORT, () => {
   console.log(`server running on port:${PORT}`);

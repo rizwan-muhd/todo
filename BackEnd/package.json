@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"
   },
@@ -16,6 +16,7 @@
     "mongodb": "^4.11.0",
     "mongoose": "^6.7.0",
     "nodemon": "^2.0.20",
-    "upper-case": "^2.0.2"
+    "upper-case": "^2.0.2",
+    "vercel": "^28.15.1"
   }
 }
